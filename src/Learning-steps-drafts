@@ -123,3 +123,493 @@ function App() {
 }
 
 export default App;*/
+/* import React, {useState} from 'react';
+
+function App(){
+
+const [name , setName] = useState('');
+
+const [score ,setScore]= useState ('10');
+const [comment ,setComment] = useState('');
+
+const preventrefname = (e) =>{
+    e.preventDefault();
+
+setName('');
+console.log("name is:" , name);
+}
+const preventregcomment= (e) => {
+    e.preventDefault();
+
+if(Number(score) <5 && comment.length <10){
+    alert('Please enter a valid comment.');
+    return;
+}
+    alert('Thanks for your feedback!');
+    console.log("data:" , {comment, score});
+setScore('10');
+setComment('');
+};
+ return(
+    <div >
+    <form onSubmit ={preventrefname} >
+<lable  htmlFor="username" >username: <lable/>
+<input 
+id='username';
+type="text";
+value={name};
+onChange={(e)=> setName(e.target.value)};
+placeholder=enter your name:;
+/>
+</form>
+<button type=submit disapelled={!name.trim()}>send name</button>  
+</form>
+<form onSubmit={preventregcomment}>
+<lable htmlFor="entercomment"></lable>
+<textarea
+id="entercomment"
+rows="5"
+value={comment}
+onChange= {(e) => setComment{e.target.value}}
+placeholder="enter your comment"
+>
+<button type="submit">
+</button>
+</form>
+</div>
+export default App();
+*/
+/*
+import React, { useState } from 'react';
+
+function App() {
+  // --- 1. States الخاصين بنموذج التواصل (Contact Form) ---
+  const [name, setName] = useState('');
+
+  // --- 2. States الخاصين بنموذج التقييم (Feedback Form) ---
+  const [score, setScore] = useState('10'); // القيمة الابتدائية 10
+  const [comment, setComment] = useState('');
+
+  // --- 3. دالة معالجة إرسال نموذج التواصل ---
+  const handleContactSubmit = (e) => {
+    e.preventDefault(); // منع تحديث الصفحة
+    console.log("submit is done:" ,name);
+    setName(''); // تصفير الحقل
+  };
+
+  // --- 4. دالة معالجة إرسال نموذج التقييم ---
+  const handleFeedbackSubmit = (e) => {
+    e.preventDefault(); // منع تحديث الصفحة
+
+    // شرط التحقق: إذا التقييم أقل أو يساوي 5، والتعليق أقل من 10 أحرف
+    if (Number(score) <= 5 && comment.length < 10) {
+      alert('يرجى كتابة تعليق لا يقل عن 10 أحرف لتوضيح سبب التقييم المنخفض لطاهينا.');
+      return; // إيقاف الإرسال
+    }
+
+    // إذا نجح التحقق
+    alert('شكرًا لك! تم إرسال تقييمك بنجاح.');
+    console.log('بيانات التقييم:', { score, comment });
+
+    // إعادة التقييم للحالة الافتراضية
+    setScore('10');
+    setComment('');
+  };
+
+  return (
+    <div style={{ padding: '20px', maxWidth: '400px', display: 'flex', flexDirection: 'column', gap: '40px' }}>
+      
+      {/* ======= النموذج الأول: نموذج التواصل ======= */}
+      <form onSubmit={handleContactSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '10px', borderBottom: '1px solid #ccc', paddingBottom: '30px' }}>
+        <h2>نموذج التواصل</h2>
+
+        <label htmlFor="username">اسم المستخدم:</label>
+        <input 
+          id="username"
+          type="text" 
+          value={name} 
+          onChange={(e) => setName(e.target.value)} 
+          placeholder="اكتب اسمك هنا"
+        />
+
+        {/* زر الإرسال الخاص بالتواصل: يقفل إذا كانت الخانة فارغة */}
+        <button type="submit" disabled={!name.trim()}>
+          إرسال الاسم
+        </button>
+      </form>
+
+
+      {/* ======= النموذج الثاني: نموذج التقييم ======= */}
+      <form onSubmit={handleFeedbackSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+        <h2>تقييم تجربة مطعم Little Lemon</h2>
+
+        {/* شريط التقييم */}
+        <div>
+          <label htmlFor="score-slider">التقييم: {score} ⭐</label>
+          <input 
+            id="score-slider"
+            type="range" 
+            min="0" 
+            max="10" 
+            value={score} 
+            onChange={(e) => setScore(e.target.value)} 
+            style={{ width: '100%' }}
+          />
+        </div>
+
+        {/* صندوق التعليقات */}
+        <div>
+          <label htmlFor="chef-comment">ملاحظاتك للطاهي:</label>
+          <textarea 
+            id="chef-comment"
+            rows="4"
+            value={comment} 
+            onChange={(e) => setComment(e.target.value)} 
+            placeholder="اكتب رأيك في الوجبة هنا..."
+            style={{ width: '100%', marginTop: '5px' }}
+          />
+        </div>
+
+        <button type="submit">إرسال التقييم</button>
+      </form>
+
+    </div>
+  );
+}
+
+export default App;
+import React, { useState } from 'react';
+import MealCard from './MealCard';
+
+function App() {
+  // 1. Initial State Data
+  const initialMeals = [
+    { id: 'm1', name: 'Chicken Avocado Salad', calories: 350, price: 12 },
+    { id: 'm2', name: 'Double Beef Burger', calories: 750, price: 18 },
+    { id: 'm3', name: 'Healthy Oats Soup', calories: 210, price: 8 },
+    { id: 'm4', name: 'Grilled Ribeye Steak', calories: 480, price: 25 },
+  ];
+//setMeals: الدالة الوحيدة المسؤولة عن تعديل قيمة meals وإجبار ريأكت إنه يعيد تحديث الشاشة (Re-render).//
+  const [meals, setMeals] = useState(initialMeals);
+
+  // 2. Filter Function (Diet: Less than 400 calories)
+  const filterDiet = () => {
+    const filtered = initialMeals.filter(meal => meal.calories < 400);
+    setMeals(filtered);
+  };
+
+  // 3. Reset Function (Show All)
+  const showAll = () => {
+    setMeals(initialMeals);
+  };
+
+  // 4. Sort Function (Ascending by Price)
+  const sortByPrice = () => {//create a new sorted array based on the current meals state,لان رياكت تمنع تعديل عل ستيت اساسيه)(مصفوفه)
+    const sorted = [...meals].sort((a, b) => a.price - b.price);
+    setMeals(sorted);
+  };
+
+  return (
+    <div className="dashboard-container">
+      <style>{`
+        .dashboard-container {
+          padding: 40px;
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          background-color: #f8f9fa;
+          min-height: 100vh;
+          max-width: 1200px;
+          margin: 0 auto;
+        }
+        .dashboard-header {
+          color: #2d3748;
+          font-size: 2.5rem;
+          margin-bottom: 5px;
+        }
+        .dashboard-subtitle {
+          color: #718096;
+          margin-bottom: 30px;
+        }
+        .button-group {
+          margin-bottom: 40px;
+          display: flex;
+          gap: 12px;
+        }
+        .btn {
+          padding: 12px 24px;
+          font-size: 0.95rem;
+          font-weight: 600;
+          border: none;
+          border-radius: 8px;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .btn-all {
+          background-color: #edf2f7;
+          color: #4a5568;
+        }
+        .btn-all:hover { background-color: #e2e8f0; }
+        
+        .btn-diet {
+          background-color: #48bb78;
+          color: white;
+        }
+        .btn-diet:hover { background-color: #38a169; }
+        
+        .btn-sort {
+          background-color: #4299e1;
+          color: white;
+        }
+        .btn-sort:hover { background-color: #3182ce; }
+        
+        .meals-grid {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 25px;
+        }
+        .meal-card {
+          background-color: white;
+          border-radius: 12px;
+          padding: 24px;
+          width: 240px;
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+          transition: transform 0.2s ease, box-shadow 0.2s ease;
+          border: 1px solid #e2e8f0;
+        }
+        .meal-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        .meal-title {
+          margin: 0 0 15px 0;
+          color: #1a202c;
+          font-size: 1.25rem;
+        }
+        .meal-info {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 20px;
+          font-size: 0.95rem;
+        }
+        .meal-calories { color: #dd6b20; font-weight: 500; margin: 0; }
+        .meal-price { color: #2b6cb0; font-weight: 600; margin: 0; }
+        
+        .meal-input {
+          width: 100%;
+          padding: 10px;
+          box-sizing: border-box;
+          border: 1px solid #cbd5e0;
+          border-radius: 6px;
+          font-size: 0.85rem;
+          outline: none;
+          transition: border-color 0.2s;
+        }
+        .meal-input:focus {
+          border-color: #4299e1;
+        }
+      `}</style>
+
+      <h2 className="dashboard-header">Dietary Menu Dashboard</h2>
+
+      <p className="dashboard-subtitle">Manage, filter, and sort meals in real-time with React optimization.</p>
+      
+      {/* Control Buttons */}
+      <div className="button-group">
+        <button className="btn btn-all" onClick={showAll}>Show All Meals</button>
+        <button className="btn btn-diet" onClick={filterDiet}>Diet Mode (&lt; 400 cal)</button>
+        <button className="btn btn-sort" onClick={sortByPrice}>Sort by Price (Low to High)</button>
+      </div>
+
+      {/* Grid List View */}
+      //لـ map ما بتعرف تطبع نصوص أو ترسم ألوان؛ هي شغلتها بس تعدّ كم وجبة عندك بالمصفوفة (مثلاً لقت 4 وجبات).
+
+بتقوم تنادي كرت الـ MealCard 4 مرات، وبتشحن بقلبه البيانات الخاصة بكل وجبة (الاسم، السعر، السعرات) كـ Props.
+
+يعني هاد السطر هو يلي عم يقرر كم كرت رح ينطبع، ومين الوجبات يلي فازت وطلعت على الشاشة.//
+      <div className="meals-grid">
+        {meals.map((meal) => (
+          <MealCard 
+            key={meal.id} /* Preserves state and input values across sort/filter mutations */
+            name={meal.name}
+            calories={meal.calories}
+            price={meal.price}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default App; */
+//////////////////////
+import "./App.css";
+import { useState } from "react";
+import { validateEmail } from "./utils"; // الآن سيعمل هذا السطر لأننا أنشأنا الملف
+
+const PasswordErrorMessage = () => {
+  return (
+    <p className="FieldError">Password should have at least 8 characters</p>
+  );
+};
+
+function App() {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState({
+    value: "",
+    isTouched: false,
+  });
+  const [role, setRole] = useState("role");
+
+  // تم إصلاح مشكلة الـ return وإضافة فحص الإيميل
+  const getIsFormValid = () => {
+    return (
+      firstName.length !== 0 &&
+      validateEmail(email) &&
+      password.value.length >= 8 &&
+      role !== "role"
+    );
+  };
+
+  // تم إصلاح الأخطاء الإملائية (Typos) هنا
+  const clearForm = () => {
+    setFirstName("");
+    setLastName("");
+    setEmail("");
+    setPassword({
+      value: "",
+      isTouched: false,
+    });
+    setRole("role");
+  };
+
+  // تم إصلاح الإملاء في preventDefault
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    alert("Account created!");
+    clearForm();
+  };
+
+  return (
+    <div className="App">
+      <form onSubmit={handleSubmit}>
+        <fieldset>
+          <h2>Sign Up</h2>
+          
+          <div className="Field">
+            <label>
+              First name <sup>*</sup>
+            </label>
+            <input
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              placeholder="First name"
+            />
+          </div>
+          
+          <div className="Field">
+            <label>Last name</label>
+            <input
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)} // تم إصلاح حرف L
+              placeholder="Last name"
+            />
+          </div>
+          
+          <div className="Field">
+            <label>
+              Email address <sup>*</sup>
+            </label>
+            <input
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email address"
+            />
+          </div>
+          
+          <div className="Field">
+            <label>
+              Password <sup>*</sup>
+            </label>
+            <input
+              value={password.value}
+              type="password"
+              onChange={(e) => setPassword({ ...password, value: e.target.value })}
+              onBlur={() => setPassword({ ...password, isTouched: true })}
+              placeholder="Password"
+            />
+            {password.isTouched && password.value.length < 8 ? (
+              <PasswordErrorMessage />
+            ) : null}
+          </div>
+          
+          <div className="Field">
+            <label>
+              Role <sup>*</sup>
+            </label>
+            <select value={role} onChange={(e) => setRole(e.target.value)}>
+              <option value="role">Role</option>
+              <option value="individual">Individual</option>
+              <option value="business">Business</option>
+            </select>
+          </div>
+          
+          <button type="submit" disabled={!getIsFormValid()}>
+            Create account
+          </button>
+        </fieldset>
+      </form>
+    </div>
+  );
+}
+
+export default App;
+//////////////
+import "./App.css";
+// نستورد المزوّد والـ Hook الذي أنشأناه
+import { UserProvider, useUser } from "./UserContext"; 
+
+// -------------------------------------------------
+// مكون فرعي 1: رأس الصفحة
+const Header = () => {
+  // الخطوة 5: استهلاك البيانات مباشرة! (بدون Props)
+  const { user } = useUser(); 
+
+  return (
+    <header style={{ padding: "10px", background: "#f0f0f0" }}>
+      <h1>AIU Store</h1>
+      <p>Welcome back, {user.name}!</p> {/* عرض اسم المستخدم هنا */}
+    </header>
+  );
+};
+
+// -------------------------------------------------
+// مكون فرعي 2: لوحة التحكم
+const Dashboard = () => {
+  // الخطوة 5: استهلاك البيانات مرة أخرى في مكان مختلف تماماً
+  const { user } = useUser(); 
+
+  return (
+    <div style={{ padding: "20px" }}>
+      <h2>Dashboard Overview</h2>
+      <p>Your current role is: <strong>{user.role}</strong></p>
+    </div>
+  );
+};
+
+// -------------------------------------------------
+// المكون الرئيسي للتطبيق
+ function App() {
+  return (
+    // الخطوة 4: تغليف التطبيق
+    // أي مكون داخل UserProvider سيتمكن من الوصول لبيانات المستخدم فوراً
+    <UserProvider>
+      <div className="App">
+        <Header />
+        <Dashboard />
+      </div>
+    </UserProvider>
+  );
+}
+export default App;

@@ -103,3 +103,47 @@ li {
 li:hover {
   transform: translateY(-5px); /* حركة خفيفة عند الوقوف عليها */
 }
+/* اجعل الخلفية رمادية فاتحة والخط أسود ليظهر النص */
+.dashboard {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #ffffff; /* خلفية بيضاء */
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  color: #333; /* لون الخط الأساسي أسود داكن وليس أبيض */
+}
+
+h1, h2 {
+  color: #2c3e50; /* لون أزرق غامق للعناوين */
+  text-align: center;
+}
+
+/* تنسيق بطاقات الطلبات لتظهر بشكل أوضح */
+li {
+  background: #f8f9fa;
+  margin: 10px 0;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  list-style: none;
+  text-align: center;
+  font-weight: bold;
+}/* حل مشكلة الألوان المختفية - إجبار اللون للظهور */
+.dashboard h1, 
+.dashboard h2,
+.app-wrapper h1, 
+.app-wrapper h2 {
+    color: #333333 !important; /* اللون الأسود الداكن */
+    opacity: 1 !important;     /* إزالة أي شفافية */
+    text-shadow: none !important;
+}
+
+/* تنسيق خاص لقسم المخزون ليظهر بوضوح */
+.inventory-section {
+    background: #fdfdfd;
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #eee;
+    margin-bottom: 20px;
+}

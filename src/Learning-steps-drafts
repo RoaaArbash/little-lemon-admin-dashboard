@@ -820,3 +820,110 @@ return{
     </div>
   );
 }
+////////////////////////
+import React, { useState, useEffect } from "react";
+import './App.css';
+
+function App() {
+  const [inventory] = useState([
+    { id: 1, item: "Tomatoes", quantity: 10 },
+    { id: 2, item: "Lettuce", quantity: 5 },
+    { id: 3, item: "Meat", quantity: 0 },
+  ]);
+
+  const [orders, setOrders] = useState(() => {
+    const saved = localStorage.getItem("myOrders");
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setOrders((prev) => [
+        ...prev,
+        { id: Date.now(), order: "New Meal #" + (prev.length + 1) },
+      ]);
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("myOrders", JSON.stringify(orders));
+  }, [orders]);
+
+  // دالة الـ Reset تنتهي هنا
+  const resetDashboard = () => {
+    localStorage.clear();
+    window.location.reload();
+  };
+
+  // الـ return يجب أن يكون خارج أي دالة (في مستوى الـ App مباشرة)
+  return (
+    <div className="dashboard" style={{ padding: "20px" }}>
+      <h1>Little Lemon Admin Dashboard</h1>
+
+      <section>
+        <h2>Inventory Status:</h2>
+        {inventory.map((item) => (
+          <div key={item.id} style={{ color: item.quantity === 0 ? "red" : "green" }}>
+            {item.item}: {item.quantity === 0 ? "Out of Stock! ⚠️" : item.quantity}
+          </div>
+        ))}
+      </section>
+
+      <section>
+        <h2>Live Orders:</h2>
+        <ul>
+          {orders.map((o) => (
+            <li key={o.id}>{o.order}</li>
+          ))}
+        </ul>
+      </section>
+
+      <button onClick={resetDashboard} style={{ marginTop: "20px", padding: "10px 20px" }}>
+        Reset Dashboard
+      </button>
+    </div>
+  );
+}
+
+export default App;
+//////////1///////////////
+import { useState, useEffect } from "react";
+
+export default function JokeComponent() {
+  const [joke, setJoke] = useState(null); // نبدأ بـ null لأننا لا نملك بيانات بعد
+  const [isLoading, setIsLoading] = useState(true); // حالة تتبع التحميل
+
+  const fetchJoke = () => {
+    setIsLoading(true); // نبدأ التحميل
+    fetch("https://official-joke-api.appspot.com/random_joke")
+      .then((response) => response.json())//لحول داتا يلي جبتا من api من نص للكائن بلجافاسكربت
+      .then((data) => {
+        setJoke(data);
+        setIsLoading(false); //  كرمال مانفوت بendless loop انتهى التحميل بنجاح
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        setIsLoading(false);//لتخبرني انو صار في ايررور 
+      });
+  };
+
+  useEffect(() => {
+    fetchJoke();
+  }, []);
+
+  // الرندر الشرطي:
+  if (isLoading) {
+    return <h1> data pending ... ⏳</h1>;
+  }
+
+  return (
+    <div>
+      <h1> new joke:</h1>
+      <p><strong>Setup:</strong> {joke.setup}</p>
+      <p><strong>Punchline:</strong> {joke.punchline}</p>
+      <button onClick={fetchJoke}>Get Another Joke</button>
+    </div>
+  );
+}

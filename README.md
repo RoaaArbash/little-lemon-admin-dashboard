@@ -1,21 +1,20 @@
-Little Lemon Admin Dashboard 🍋
+# Random Joke Generator 🃏
 
-A professional React-based admin dashboard designed for real-time restaurant operations. This project demonstrates proficiency in React Hooks, State Management, and Performance Optimization.
+A simple React application that fetches random jokes from a public API. This project demonstrates how to handle side effects and asynchronous data fetching in React.
 
-🚀 Key Technical Highlights
-* State Management: Utilizing useState to manage inventory levels and order history efficiently.
+## Key Features
+- **Data Fetching:** Uses the `Fetch API` to retrieve data from an external source.
+- **Side Effects:** Implements `useEffect` to trigger the API call on component mount.
+- **Conditional Rendering:** Manages user experience by displaying a loading state (`Data pending...`) while waiting for the API response.
+- **Error Handling:** Gracefully handles failed requests to ensure the UI remains responsive.
 
-* Asynchronous Logic: Implementing useEffect for simulated live data fetching.
+## Technologies Used
+- React (Hooks: `useState`, `useEffect`)
+- JavaScript (ES6+)
+- Public Joke API (official-joke-api)
 
-* Memory Management: Executing robust Cleanup Functions within useEffect to prevent memory leaks—a critical skill for production-grade applications.
-
-* Data Persistence: Integrated localStorage to ensure seamless user experience and data continuity across sessions.
-
-* Dynamic UI/UX: Conditional rendering to provide instant visual feedback on inventory status.
-
-🛠 Tech Stack
-* Frontend: React.js, JavaScript (ES6+).
-
-* Styling: CSS3 (Responsive Design).
-
-* Storage: Browser LocalStorage API.
+## What I Learned
+Through this project, I strengthened my understanding of:
+- Managing asynchronous operations within React components.
+- The importance of "Loading States" to improve user experience.
+- Cleaning up the UI flow using conditional rendering.
